@@ -1,0 +1,31 @@
+{
+  "name": "@hyperjump/html",
+  "description": "A UI for the Hyperjump browser",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "sapper dev",
+    "lint": "eslint --ignore-path .gitignore .",
+    "build": "sapper build",
+    "export": "sapper export",
+    "start": "node __sapper__/build"
+  },
+  "dependencies": {
+    "compression": "^1.7.1",
+    "morgan": "^1.9.1",
+    "polka": "^0.5.0",
+    "sirv": "^0.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-plugin-import": "^2.17.3",
+    "npm-run-all": "^4.1.5",
+    "rollup": "^1.0.0",
+    "rollup-plugin-commonjs": "^9.1.6",
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-svelte": "^5.0.1",
+    "rollup-plugin-terser": "^4.0.4",
+    "sapper": "^0.27.0",
+    "svelte": "^3.0.0"
+  }
+}
