@@ -1,0 +1,11 @@
+.solarized-dark {
+  background-color: #002b36;
+  color: #839496;
+  --line-focus-background-color: #073642;
+  --grouping-color: #dc322f;
+  --property-color: #b58900;
+  --string-color: #2aa198;
+  --number-color: #2aa198;
+  --boolean-color: #2aa198;
+  --null-color: #268bd2;
+}

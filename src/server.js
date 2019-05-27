@@ -11,7 +11,9 @@ const dev = NODE_ENV === "development";
 
 const app = polka();
 
-app.use(morgan());
+if (!dev) {
+  app.use(morgan("combined"));
+}
 app.use(compression({ threshold: 0 }));
 app.use(sirv("static", { dev, etag: true }));
 app.use(sapper.middleware());
