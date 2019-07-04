@@ -52,7 +52,8 @@
   <input class="url-bar {theme}"
          placeholder="https://"
          value={url}
-         on:keyup={go} />
+         on:keyup={go}
+         aria-label="URL Bar" />
   <HyperjumpCode {doc} indent="2" {theme} />
 </main>
 
