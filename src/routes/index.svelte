@@ -31,10 +31,12 @@
       return Hyperjump.nil;
     }
 
+    const schemelessUrl = location.href.match(/.+?:(.+)/)[1];
+    const scheme = url.split(":", 1)[0];
+    window.location.replace(`${scheme}:${schemelessUrl}`);
+
     const nextDoc = await Hyperjump.get(url, doc || Hyperjump.nil);
-    if (nextDoc.url !== url) {
-      window.location.replace(window.location.origin + "/#" + encodeURI(nextDoc.url));
-    }
+    window.location.replace(window.location.origin + "/#" + encodeURI(nextDoc.url));
 
     return nextDoc;
   }());
