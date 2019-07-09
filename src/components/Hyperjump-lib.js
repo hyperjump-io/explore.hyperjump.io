@@ -1,5 +1,5 @@
 import JsonPointer from "@hyperjump/json-pointer";
-import resolveUrl from "url-resolve-browser";
+import resolveUrl from "@hyperjump/browser/url-resolve-browser";
 
 
 const jsonTypeOf = (value) => {

@@ -1,5 +1,6 @@
 import resolve from "rollup-plugin-node-resolve";
 import replace from "rollup-plugin-replace";
+import json from "rollup-plugin-json";
 import commonjs from "rollup-plugin-commonjs";
 import svelte from "rollup-plugin-svelte";
 import { terser } from "rollup-plugin-terser";
@@ -48,10 +49,12 @@ export default {
         dev
       }),
       resolve(),
-      commonjs()
+      commonjs(),
+      json()
     ],
     external: Object.keys(pkg.dependencies).concat(
-      require("module").builtinModules || Object.keys(process.binding("natives"))
+      require("module").builtinModules || Object.keys(process.binding("natives")),
+      "readable-stream"
     )
   },
 

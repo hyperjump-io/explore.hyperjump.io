@@ -1,8 +1,11 @@
 <script>
   import { onMount } from "svelte"
   import Hyperjump from "@hyperjump/browser";
-  import HyperjumpCode from "../components/Hyperjump.svelte"
+  import JRef from "@hyperjump/browser/json-reference/core";
+  import HyperjumpCode from "../components/Hyperjump.svelte";
 
+
+  Hyperjump.addContentType("application/validation+json", JRef);
 
   let url = "";
   const theme = "solarized-dark";
