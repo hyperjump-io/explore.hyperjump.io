@@ -1,10 +1,10 @@
 <script>
   import { onMount } from "svelte"
   import Hyperjump from "@hyperjump/browser";
-  import JRef from "@hyperjump/browser/json-reference/core";
   import HyperjumpCode from "../components/Hyperjump.svelte";
 
 
+  const JRef = Hyperjump.getContentType("application/reference+json");
   Hyperjump.addContentType("application/validation+json", JRef);
 
   let url = "";
