@@ -16,5 +16,5 @@ The app is deployed to Github Pages from the `gh-pages` branch. The site is
 served through Cloudflare. TODO: Automate deployment
 
 [explore]: https://explore.hyperjump.io/#https://swapi.hyperjump.io/api/films/1
-[hyperjump]: https://github.com/jdesrosiers/hyperjump-browser
-[jref]: https://github.com/jdesrosiers/hyperjump-browser/tree/master/json-reference
+[hyperjump]: https://github.com/hyperjump-io/browser
+[jref]: https://github.com/hyperjump-io/browser/blob/master/lib/json-reference/README.md
