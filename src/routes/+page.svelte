@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte"
   import { get } from "@hyperjump/browser";
+  import ThemeSelector from "../components/ThemeSelector.svelte";
   import HyperjumpCode from "../components/Hyperjump.svelte";
 
 
@@ -48,39 +49,47 @@
 <svelte:window on:hashchange={onHashChange} />
 
 <svelte:head>
-	<title>Hyperjump</title>
+  <title>Hyperjump - Browser</title>
 </svelte:head>
 
-<main>
-  <h1>Hyperjump</h1>
+<ThemeSelector />
 
-  <input class="url-bar {theme}"
+<main>
+  <h1>Hyperjump - Browser</h1>
+
+  <input class="url-bar"
          placeholder="https://"
          value={url}
          on:keyup={go}
          aria-label="URL Bar" />
-  <HyperjumpCode {doc} indent="2" {theme} />
+  <HyperjumpCode {doc} indent="2" />
 </main>
 
 <style>
+  main {
+    display: flex;
+    flex-direction: column;
+    padding: .5em;
+    height: 100%;
+  }
+
+  h1 {
+    margin: auto;
+    padding-bottom: .5em;
+  }
+
   .url-bar {
     width: 100%;
     box-sizing: border-box;
     padding: .5em;
-    border: none;
+    border: thin solid var(--text-color);
     margin-bottom: .5em;
     font-family: monospace;
+    color: var(--text-color);
+    background-color: var(--background-color);
   }
 
   .url-bar:focus {
     background-color: var(--line-focus-background-color);
-  }
-
-  :global(.hyperjump) {
-    height: 100%;
-    line-height: 1.5em;
-    overflow-y: scroll;
-    padding: .5em;
-    margin-bottom: 1em;
   }
 </style>

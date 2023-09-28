@@ -1,25 +1,26 @@
 {
   "name": "@hyperjump/expore.hyperjump.io",
   "description": "A UI for the Hyperjump browser",
-	"version": "0.0.1",
-	"type": "module",
-	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
-		"preview": "vite preview",
-		"lint": "eslint src"
-	},
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src"
+  },
   "repository": "github:hyperjump-io/explore.hyperjump.io",
   "licence": "MIT",
-	"devDependencies": {
-		"@sveltejs/adapter-static": "*",
-		"@sveltejs/kit": "*",
-		"eslint": "*",
-		"eslint-plugin-svelte": "*",
-		"svelte": "*",
-		"vite": "*"
-	},
-	"dependencies": {
-		"@hyperjump/browser": "github:hyperjump-io/browser#v1"
-	}
+  "devDependencies": {
+    "@sveltejs/adapter-static": "*",
+    "@sveltejs/kit": "*",
+    "eslint": "*",
+    "eslint-plugin-svelte": "*",
+    "svelte": "*",
+    "vite": "*"
+  },
+  "dependencies": {
+    "@hyperjump/browser": "github:hyperjump-io/browser#v1",
+    "moo": "^0.5.2"
+  }
 }

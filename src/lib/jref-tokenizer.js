@@ -76,7 +76,7 @@ export const generateLines = (url, json, lines = [[]], depth = 0) => {
   } else if (jsonType === "null") {
     pushToken(lines, ["ATOM", "null"]);
   } else if (jsonType === "href") {
-    pushToken(lines, ["HREF", new URL(json.href, url).toString()]);
+    pushToken(lines, ["HREF", json, new URL(json.href, url).toString()]);
   }
 
   return lines;
