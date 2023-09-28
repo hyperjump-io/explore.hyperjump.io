@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 function cleanup {
   rm -rf "$WORK_DIR"
   echo "Deleted temp working directory $WORK_DIR"
@@ -16,18 +18,19 @@ if [[ ! "$WORK_DIR" || ! -d "$WORK_DIR" ]]; then
   exit 1
 fi
 
-npm run export
+npm run build
 
 cd "$WORK_DIR"
 
-git clone -b gh-pages --single-branch git@github.com:jdesrosiers/explore.hyperjump.io.git
+git clone -b gh-pages --single-branch git@github.com:hyperjump-io/explore.hyperjump.io.git
 cd explore.hyperjump.io
 
 git rm -r -q .
 git reset -q HEAD CNAME
 git checkout -q -- CNAME
 
-cp -rp "$DIR"/../__sapper__/export/* .
+cp -rp "$DIR"/../build/* .
+touch .nojekyll
 git add .
 
 git commit
