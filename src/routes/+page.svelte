@@ -1,11 +1,8 @@
 <script>
   import { onMount } from "svelte"
-  import Hyperjump from "@hyperjump/browser";
+  import { get } from "@hyperjump/browser";
   import HyperjumpCode from "../components/Hyperjump.svelte";
 
-
-  const JRef = Hyperjump.getContentType("application/reference+json");
-  Hyperjump.addContentType("application/validation+json", JRef);
 
   let url = "";
   const theme = "solarized-dark";
@@ -31,15 +28,18 @@
 
   $: doc = (async function () {
     if (url === "") {
-      return Hyperjump.nil;
+      return;
     }
 
-    const schemelessUrl = location.href.match(/.+?:(.+)/)[1];
-    const scheme = url.split(":", 1)[0];
-    window.location.replace(`${scheme}:${schemelessUrl}`);
+    const scheme = new URL(url).protocol;
+    location.protocol = scheme;
 
-    const nextDoc = await Hyperjump.get(url, doc || Hyperjump.nil);
-    window.location.replace(window.location.origin + "/#" + encodeURI(nextDoc.url));
+    const nextDoc = await get(url);
+    let locationUrl = window.location.origin + "/#" + encodeURI(nextDoc.baseUri);
+    if (nextDoc.cursor) {
+      locationUrl += "#" + nextDoc.cursor;
+    }
+    window.location.replace(locationUrl);
 
     return nextDoc;
   }());

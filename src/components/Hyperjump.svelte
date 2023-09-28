@@ -1,5 +1,5 @@
 <script>
-  import Hyperjump from "@hyperjump/browser";
+  import { value } from "@hyperjump/browser";
   import { generateLines } from "./Hyperjump-lib";
   import Fixed from "./Fixed.svelte";
 
@@ -10,8 +10,11 @@
 
   $: lines = (async function () {
     const d = await doc;
-    const value = Hyperjump.value(d);
-    return generateLines(d.url, value);
+    if (!d) {
+      return [];
+    }
+    const docValue = value(d);
+    return generateLines(d.baseUri, docValue);
   }());
 </script>
 
@@ -45,7 +48,11 @@
       </div>
     {/each}
   {:catch error}
-    {error.message}
+    {error.toString()}
+    {#if error.cause}
+      <br />
+      Caused By: {error.cause.toString()}
+    {/if}
   {/await}
 </div>
 

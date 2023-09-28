@@ -1,5 +1,5 @@
-import JsonPointer from "@hyperjump/json-pointer";
-import resolveUrl from "url-resolve-browser";
+import { append } from "@hyperjump/json-pointer";
+import { Reference } from "@hyperjump/browser/jref";
 
 
 const jsonTypeOf = (value) => {
@@ -9,17 +9,19 @@ const jsonTypeOf = (value) => {
   if (Array.isArray(value)) {
     return "array";
   }
+  if (value instanceof Reference) {
+    return "href";
+  }
 
-  const type = typeof value;
-  return type === "object" && "$href" in value ? "href" : type;
+  return typeof value;
 };
 
-const uriFragment = (url) => url.split("#", 2)[1] || "";
-const pointer = (url) => decodeURIComponent(uriFragment(url));
 const stepUrl = (propertyName, url) => {
-  const ptr = JsonPointer.append(propertyName, pointer(url));
+  const uriFragment = url.split("#", 2)[1] || "";
+  const pointer = decodeURIComponent(uriFragment);
+  const ptr = append(propertyName, pointer);
   const fragment = "#" + encodeURI(ptr).replace(/#/g, "%23");
-  return resolveUrl(url, fragment);
+  return new URL(fragment, url).toString();
 };
 
 const newLine = (lines) => lines.push([]);
@@ -74,7 +76,7 @@ export const generateLines = (url, json, lines = [[]], depth = 0) => {
   } else if (jsonType === "null") {
     pushToken(lines, ["ATOM", "null"]);
   } else if (jsonType === "href") {
-    pushToken(lines, ["HREF", resolveUrl(url, json["$href"])]);
+    pushToken(lines, ["HREF", new URL(json.href, url).toString()]);
   }
 
   return lines;

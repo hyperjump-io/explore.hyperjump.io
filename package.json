@@ -20,6 +20,6 @@
 		"vite": "*"
 	},
 	"dependencies": {
-		"@hyperjump/browser": "^0.19.0"
+		"@hyperjump/browser": "github:hyperjump-io/browser#v1"
 	}
 }
