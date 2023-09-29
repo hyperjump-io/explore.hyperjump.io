@@ -1,8 +1,9 @@
 <script>
   import { onMount } from "svelte"
   import { get } from "@hyperjump/browser";
+  import Footer from "../components/Footer.svelte";
+  import Hyperjump from "../components/Hyperjump.svelte";
   import ThemeSelector from "../components/ThemeSelector.svelte";
-  import HyperjumpCode from "../components/Hyperjump.svelte";
 
 
   let url = "";
@@ -49,33 +50,45 @@
 <svelte:window on:hashchange={onHashChange} />
 
 <svelte:head>
-  <title>Hyperjump - Browser</title>
+  <title>Hyperjump - Explorer</title>
 </svelte:head>
 
 <ThemeSelector />
 
-<main>
-  <h1>Hyperjump - Browser</h1>
+<div class="layout">
+  <h1>Hyperjump - Explorer</h1>
 
-  <input class="url-bar"
-         placeholder="https://"
-         value={url}
-         on:keyup={go}
-         aria-label="URL Bar" />
-  <HyperjumpCode {doc} indent="2" />
-</main>
+  <main>
+    <input class="url-bar"
+           placeholder="https://"
+           value={url}
+           on:keyup={go}
+           aria-label="URL Bar" />
+    <Hyperjump {doc} indent="2" />
+  </main>
+
+  <Footer />
+</div>
 
 <style>
+  .layout {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-rows: auto 1fr auto;
+    grid-gap: .5em;
+    height: 100%;
+    padding: .5em;
+  }
+
   main {
     display: flex;
     flex-direction: column;
-    padding: .5em;
-    height: 100%;
+    min-height: 200px;
+    overflow-y: hidden;
   }
 
   h1 {
     margin: auto;
-    padding-bottom: .5em;
   }
 
   .url-bar {

@@ -73,9 +73,3 @@ select {
 select::-ms-expand {
   display: none;
 }
-
-#svelte {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}

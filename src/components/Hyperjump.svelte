@@ -57,7 +57,6 @@
 
 <style>
   .hyperjump {
-    display: block;
     height: 100%;
     font-family: monospace;
     border: thin solid var(--text-color);
