@@ -1,7 +1,6 @@
 <script>
   import { value } from "@hyperjump/browser";
   import { generateLines } from "../lib/jref-tokenizer.js";
-  import Fixed from "./Fixed.svelte";
 
 
   export let doc;
@@ -19,48 +18,79 @@
 
 <div class="hyperjump">
   {#await lines}
-    ... Loading ...
+  ... Loading ...
   {:then lines}
-    {#each lines as line}
-      <div class="line">
-        {#each line as token}
-          {#if token[0] === "GROUPING"}
-            <span class="accent3">{token[1]}</span>
-          {:else if token[0] === "PROPERTY"}
-            &quot;<span class="accent1"><a href="#{token[2]}">{token[1]}</a></span>&quot;:&nbsp;
-          {:else if token[0] === "ARRAY_INDEX"}
-            <Fixed><a href="#{token[2]}" class="array-index">{token[1]}</a></Fixed>
-          {:else if token[0] === "STRING"}
-            &quot;<span class="accent7">{token[1]}</span>&quot;
-          {:else if token[0] === "NUMBER"}
-            <span class="accent7">{token[1]}</span>
-          {:else if token[0] === "ATOM"}
-            <span class="accent7">{token[1]}</span>
-          {:else if token[0] === "HREF"}
-            <a href="#{token[2]}">{token[1].href}</a>
-          {:else if token[0] === "COMMA"}
-            ,
-          {:else if token[0] === "INDENT"}
-            {@html "&nbsp;".repeat(indent)}
-          {/if}
-        {/each}
-      </div>
+  {#if lines.length}
+  <div class="line-numbers">
+  {#each [...Array(lines.length)] as _, lineNumber}
+    <div>{lineNumber + 1}</div>
+  {/each}
+  </div>
+  <div class="highlighted">
+  {#each lines as line}
+    <div class="line">
+    {#each line as token}
+    {#if token[0] === "GROUPING"}
+      <span class="accent3">{token[1]}</span>
+    {:else if token[0] === "PROPERTY"}
+      &quot;<span class="accent1"><a href="#{token[2]}">{token[1]}</a></span>&quot;:&nbsp;
+    {:else if token[0] === "ARRAY_INDEX"}
+      <a href="#{token[2]}" class="array-index">{token[1]}</a>
+    {:else if token[0] === "STRING"}
+      &quot;<span class="accent7">{token[1]}</span>&quot;
+    {:else if token[0] === "NUMBER"}
+      <span class="accent7">{token[1]}</span>
+    {:else if token[0] === "ATOM"}
+      <span class="accent7">{token[1]}</span>
+    {:else if token[0] === "HREF"}
+      <a href="#{token[2]}" class="accent6">&lt;{token[1].href}&gt;</a>
+    {:else if token[0] === "COMMA"}
+      ,
+    {:else if token[0] === "INDENT"}
+      {@html "&nbsp;".repeat(indent)}
+    {/if}
     {/each}
+    </div>
+  {/each}
+  </div>
+  {/if}
   {:catch error}
+  <div class="hyperjump-error">
     {error.toString()}
     {#if error.cause}
-      <br />
-      Caused By: {error.cause.toString()}
+    <br />
+    Caused By: {error.cause.toString()}
     {/if}
+  </div>
   {/await}
 </div>
 
 <style>
   .hyperjump {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: auto 1fr;
+    grid-gap: 0;
     height: 100%;
     font-family: monospace;
     border: thin solid var(--text-color);
     overflow: scroll;
+  }
+
+  .hyperjump-error {
+    padding: .5em;
+  }
+
+  .line-numbers {
+    position: sticky;
+    left: 0;
+    background: var(--background-color);
+    border-right: thin solid var(--text-color);
+    padding: .5em;
+    text-align: right;
+  }
+
+  .highlighted {
     padding: .5em;
   }
 
@@ -70,12 +100,11 @@
 
   a:hover {
     font-weight: bold;
-    filter: brightness(150%);
+    filter: brightness(125%);
   }
 
   .array-index {
-    right: .125em;
-    filter: brightness(50%);
+    padding-right: .5em;
   }
 
   .line {
@@ -87,7 +116,7 @@
   }
 
   .line:hover .array-index {
-    filter: brightness(100%);
+    filter: brightness(150%);
   }
 
   .comment {
