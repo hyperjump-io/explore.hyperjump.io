@@ -21,6 +21,6 @@
   },
   "dependencies": {
     "@hyperjump/browser": "github:hyperjump-io/browser#v1",
-    "moo": "^0.5.2"
+    "svelte-select": "^5.7.0"
   }
 }
