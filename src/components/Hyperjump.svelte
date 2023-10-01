@@ -5,17 +5,25 @@
   export let document;
   export let indent;
 
-  $: lines = (async function () {
-    const doc = await document;
-    return doc ? generateLines(doc.baseUri, doc.cursor, doc.root) : [];
+  let lines = [];
+
+  $: lineGenerator = (async function () {
+    try {
+      const doc = await document;
+      lines = doc ? generateLines(doc.baseUri, doc.cursor, doc.root) : [];
+    } catch (error) {
+      const errorLines = [{ tokens: [["GROUPING", error.toString()]] }];
+      if (error.cause) {
+        errorLines.push({ tokens: [["GROUPING", `Caused by: ${error.cause.toString()}`]] });
+      }
+      lines = errorLines;
+    }
   }());
 </script>
 
 <div class="hyperjump">
-  {#await lines then lines}
-  {#if lines.length}
   <div class="line-numbers">
-  {#each [...Array(lines.length)] as _, lineNumber}
+  {#each [...Array(lines.length || 1)] as _, lineNumber}
     <div>{lineNumber + 1}</div>
   {/each}
   </div>
@@ -46,16 +54,6 @@
     </div>
   {/each}
   </div>
-  {/if}
-  {:catch error}
-  <div class="hyperjump-error">
-    {error.toString()}
-    {#if error.cause}
-    <br />
-    Caused By: {error.cause.toString()}
-    {/if}
-  </div>
-  {/await}
 </div>
 
 <style>
@@ -68,10 +66,6 @@
     font-family: monospace;
     border: thin solid var(--text-color);
     overflow: scroll;
-  }
-
-  .hyperjump-error {
-    padding: .5em;
   }
 
   .line-numbers {
