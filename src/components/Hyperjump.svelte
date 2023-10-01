@@ -1,30 +1,45 @@
 <script>
+  import { afterUpdate } from "svelte";
   import { generateLines } from "../lib/jref-tokenizer.js";
 
 
   export let document;
   export let indent;
 
-  let lines = [];
+  let lines = [{ tokens: [] }];
+  let container;
+  let focusTarget;
 
   $: lineGenerator = (async function () {
     try {
       const doc = await document;
-      lines = doc ? generateLines(doc.baseUri, doc.cursor, doc.root) : [];
+      lines = doc ? generateLines(doc.baseUri, doc.cursor, doc.root) : [{ tokens: [] }];
     } catch (error) {
-      const errorLines = [{ tokens: [["GROUPING", error.toString()]] }];
+      const errorLines = [{ tokens: [["ERROR", error.toString()]] }];
       if (error.cause) {
-        errorLines.push({ tokens: [["GROUPING", `Caused by: ${error.cause.toString()}`]] });
+        errorLines.push({ tokens: [["ERROR", `Caused by: ${error.cause.toString()}`]] });
       }
       lines = errorLines;
     }
   }());
+
+  afterUpdate(() => {
+    if (focusTarget) {
+      focusTarget.scrollIntoView({ behavior: "smooth" });
+    } else {
+      container.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    }
+  })
 </script>
 
-<div class="hyperjump">
+<div class="hyperjump" bind:this={container}>
   <div class="line-numbers">
-  {#each [...Array(lines.length || 1)] as _, lineNumber}
+  {#each lines as line, lineNumber}
+    {#if line.highlight}
+    <div bind:this={focusTarget}>{lineNumber + 1}</div>
+    {:else}
     <div>{lineNumber + 1}</div>
+    {/if}
   {/each}
   </div>
   <div class="highlighted">
@@ -49,6 +64,8 @@
       ,
     {:else if token[0] === "INDENT"}
       {@html "&nbsp;".repeat(indent)}
+    {:else}
+      {token[1]}
     {/if}
     {/each}
     </div>
