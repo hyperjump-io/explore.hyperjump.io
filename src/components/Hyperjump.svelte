@@ -1,25 +1,18 @@
 <script>
-  import { value } from "@hyperjump/browser";
   import { generateLines } from "../lib/jref-tokenizer.js";
 
 
-  export let doc;
+  export let document;
   export let indent;
 
   $: lines = (async function () {
-    const d = await doc;
-    if (!d) {
-      return [];
-    }
-    const docValue = value(d);
-    return generateLines(d.baseUri, docValue);
+    const doc = await document;
+    return doc ? generateLines(doc.baseUri, doc.cursor, doc.root) : [];
   }());
 </script>
 
 <div class="hyperjump">
-  {#await lines}
-  ... Loading ...
-  {:then lines}
+  {#await lines then lines}
   {#if lines.length}
   <div class="line-numbers">
   {#each [...Array(lines.length)] as _, lineNumber}
@@ -28,8 +21,8 @@
   </div>
   <div class="highlighted">
   {#each lines as line}
-    <div class="line">
-    {#each line as token}
+    <div class="line" class:focused-line={line.highlight}>
+    {#each line.tokens as token}
     {#if token[0] === "GROUPING"}
       <span class="accent3">{token[1]}</span>
     {:else if token[0] === "PROPERTY"}
@@ -111,12 +104,8 @@
     white-space: nowrap;
   }
 
-  .line:hover {
+  .focused-line {
     background-color: var(--line-focus-background-color);
-  }
-
-  .line:hover .array-index {
-    filter: brightness(150%);
   }
 
   .comment {

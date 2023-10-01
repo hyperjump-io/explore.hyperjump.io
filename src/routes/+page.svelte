@@ -28,7 +28,7 @@
     }
   }
 
-  $: doc = (async function () {
+  $: document = (async function () {
     if (url === "") {
       return;
     }
@@ -64,7 +64,7 @@
            value={url}
            on:keyup={go}
            aria-label="URL Bar" />
-    <Hyperjump {doc} indent="2" />
+    <Hyperjump {document} indent="2" />
   </main>
 
   <Footer />

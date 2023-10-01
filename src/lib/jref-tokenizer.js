@@ -24,10 +24,14 @@ const stepUrl = (propertyName, url) => {
   return new URL(fragment, url).toString();
 };
 
-const newLine = (lines) => lines.push([]);
+const newLine = (lines) => lines.push({ tokens: [], highlight: false });
 
 const pushToken = (lines, ...tokens) => {
-  lines[lines.length - 1].push(...tokens);
+  lines[lines.length - 1].tokens.push(...tokens);
+};
+
+const highlightLine = (lines) => {
+  lines[lines.length - 1].highlight = true;
 };
 
 const times = (n, subject) => {
@@ -39,7 +43,11 @@ const times = (n, subject) => {
   return items;
 };
 
-export const generateLines = (url, json, lines = [[]], depth = 0) => {
+export const generateLines = (url, focus, json, lines = [{ tokens: [] }], cursor = "", depth = 0) => {
+  if (focus && cursor === focus) {
+    highlightLine(lines);
+  }
+
   const jsonType = jsonTypeOf(json);
 
   if (jsonType === "object") {
@@ -51,7 +59,7 @@ export const generateLines = (url, json, lines = [[]], depth = 0) => {
 
       const propertyUrl = stepUrl(propertyName, url);
       pushToken(lines, ...times(depth + 1, ["INDENT"]), ["PROPERTY", propertyName, propertyUrl]);
-      generateLines(propertyUrl, propertyValue, lines, depth + 1);
+      generateLines(propertyUrl, focus, propertyValue, lines, append(propertyName, cursor), depth + 1);
       ndx < entries.length - 1 && pushToken(lines, ["COMMA"]);
       newLine(lines);
     }
@@ -62,7 +70,7 @@ export const generateLines = (url, json, lines = [[]], depth = 0) => {
     for (let ndx = 0; ndx < json.length; ndx++) {
       const propertyUrl = stepUrl(ndx, url);
       pushToken(lines, ...times(depth + 1, ["INDENT"]), ["ARRAY_INDEX", ndx, propertyUrl]);
-      generateLines(propertyUrl, json[ndx], lines, depth + 1);
+      generateLines(propertyUrl, focus, json[ndx], lines, append(`${ndx}`, cursor), depth + 1);
       ndx < json.length - 1 && pushToken(lines, ["COMMA"]);
       newLine(lines);
     }
