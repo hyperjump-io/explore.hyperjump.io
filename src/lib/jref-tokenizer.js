@@ -60,7 +60,10 @@ export const generateLines = (url, focus, json, lines = [{ tokens: [] }], cursor
       const propertyUrl = stepUrl(propertyName, url);
       pushToken(lines, ...times(depth + 1, ["INDENT"]), ["PROPERTY", propertyName, propertyUrl]);
       generateLines(propertyUrl, focus, propertyValue, lines, append(propertyName, cursor), depth + 1);
-      ndx < entries.length - 1 && pushToken(lines, ["COMMA"]);
+
+      if (ndx < entries.length - 1) {
+        pushToken(lines, ["COMMA"]);
+      }
       newLine(lines);
     }
     pushToken(lines, ...times(depth, ["INDENT"]), ["GROUPING", "}"]);
@@ -71,7 +74,10 @@ export const generateLines = (url, focus, json, lines = [{ tokens: [] }], cursor
       const propertyUrl = stepUrl(ndx, url);
       pushToken(lines, ...times(depth + 1, ["INDENT"]), ["ARRAY_INDEX", ndx, propertyUrl]);
       generateLines(propertyUrl, focus, json[ndx], lines, append(`${ndx}`, cursor), depth + 1);
-      ndx < json.length - 1 && pushToken(lines, ["COMMA"]);
+
+      if (ndx < json.length - 1) {
+        pushToken(lines, ["COMMA"]);
+      }
       newLine(lines);
     }
     pushToken(lines, ...times(depth, ["INDENT"]), ["GROUPING", "]"]);
