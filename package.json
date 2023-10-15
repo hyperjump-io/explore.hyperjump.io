@@ -9,7 +9,10 @@
     "preview": "vite preview",
     "lint": "eslint src"
   },
-  "repository": "github:hyperjump-io/explore.hyperjump.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyperjump-io/explore.hyperjump.io.git"
+  },
   "licence": "MIT",
   "devDependencies": {
     "@sveltejs/adapter-static": "*",
@@ -20,7 +23,7 @@
     "vite": "*"
   },
   "dependencies": {
-    "@hyperjump/browser": "github:hyperjump-io/browser#v1",
+    "@hyperjump/browser": "^1.0.0",
     "svelte-select": "^5.7.0"
   }
 }
