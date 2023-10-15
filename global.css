@@ -2,15 +2,59 @@ html {
   height: 100%;
 }
 
-body, #sapper, main {
-  display: flex;
-  flex-direction: column;
+body {
   height: 100%;
+  margin: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  caret-color: var(--text-color);
 }
 
-body {
-  max-width: 800px;
-  margin: 0 auto;
-  padding-left: 1em;
-  padding-right: 1em;
+* {
+  box-sizing: border-box;
+  scrollbar-color: var(--text-color) var(--background-color);
+}
+
+::-webkit-scrollbar {
+  width: .75em;
+  height: .75em;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-color);
+  border-radius: 6px;
+  padding: 1em;
+  margin: 1em;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-color) ;
+  border-radius: 6px;
+  padding: 1em;
+  margin: 1em;
+  border: 3px solid var(--background-color);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--background-color);
+}
+
+a {
+  color: var(--text-color);
+}
+
+svg {
+  fill: currentColor;
+}
+
+button {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border: thin ridge var(--text-color);
+  padding: .25em .5em;
+  margin: 0;
+}
+
+button:hover {
+  cursor: pointer;
 }
