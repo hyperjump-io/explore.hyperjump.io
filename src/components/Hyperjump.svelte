@@ -13,7 +13,7 @@
   $: lineGenerator = (async function () {
     try {
       const doc = await document;
-      lines = doc ? generateLines(doc.baseUri, doc.cursor, doc.root) : [{ tokens: [] }];
+      lines = doc ? generateLines(doc.document.baseUri, doc.cursor, doc.document.root) : [{ tokens: [] }];
     } catch (error) {
       const errorLines = [{ tokens: [["ERROR", error.toString()]] }];
       if (error.cause) {

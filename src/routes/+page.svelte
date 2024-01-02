@@ -7,7 +7,6 @@
 
 
   let url = "";
-  const theme = "solarized-dark";
 
   onMount(() => {
     if (window.location.href.slice(window.location.origin.length) === window.location.pathname) {
@@ -37,10 +36,7 @@
     location.protocol = scheme;
 
     const nextDoc = await get(url);
-    let locationUrl = window.location.origin + "/#" + encodeURI(nextDoc.baseUri);
-    if (nextDoc.cursor) {
-      locationUrl += "#" + nextDoc.cursor;
-    }
+    let locationUrl = window.location.origin + "/#" + encodeURI(nextDoc.uri);
     window.location.replace(locationUrl);
 
     return nextDoc;

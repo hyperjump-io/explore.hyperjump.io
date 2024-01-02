@@ -23,7 +23,7 @@
     "vite": "*"
   },
   "dependencies": {
-    "@hyperjump/browser": "^1.0.0",
+    "@hyperjump/browser": "^1.1.0",
     "svelte-select": "^5.7.0"
   }
 }
