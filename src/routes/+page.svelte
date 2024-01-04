@@ -1,6 +1,15 @@
 <script>
   import { onMount } from "svelte"
   import { get } from "@hyperjump/browser";
+  import "@hyperjump/json-schema";
+  import "@hyperjump/json-schema/draft-2020-12";
+  import "@hyperjump/json-schema/draft-2019-09";
+  import "@hyperjump/json-schema/draft-07";
+  import "@hyperjump/json-schema/draft-06";
+  import "@hyperjump/json-schema/draft-04";
+  import "@hyperjump/json-schema/openapi-3-0";
+  import "@hyperjump/json-schema/openapi-3-1";
+
   import Footer from "../components/Footer.svelte";
   import Hyperjump from "../components/Hyperjump.svelte";
   import ThemeSelector from "../components/ThemeSelector.svelte";
